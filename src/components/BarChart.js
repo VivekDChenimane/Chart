@@ -1,49 +1,75 @@
-import React from 'react'
-import { Pie } from 'react-chartjs-2'
-
-// defaults.global.tooltips.enabled = false
-// defaults.global.legend.position = 'bottom'
-
+import React, { useState} from 'react'
+import 'chart.js/auto';
+import { Bar } from 'react-chartjs-2'
+import Select from 'react-select';
+var test = [
+  { value: [12,13,14,15], label: 'vivek' },
+  { value: [1,11,2,3], label: 'vikas' },
+  { value: [10,2,13,4], label: 'arun' },
+  { value: [5,16,7,18], label: 'shivraj'}
+]
+var test1 = [
+  { value: [12,13,14,15], label: 'role1' },
+  { value: [1,11,2,3], label: 'role2' },
+  { value: [10,2,13,4], label: 'role3' },
+  { value: [5,16,7,18], label: 'role4'}
+]
+var test2 = [
+  { value: [12,13,14,15], label: 'abc' },
+  { value: [1,11,2,3], label: 'def' },
+  { value: [10,2,13,4], label: 'ghi' },
+  { value: [5,16,7,18], label: 'jkl'}
+]
 const BarChart = () => {
+const [dataSet,setDataSet] = useState([]);
+const [selectedOption,setSelectedOption] = useState([]);
+const handleChange = (e,test) => {
+  setDataSet(e.value);
+  let findIndex = test.findIndex(x => x.label === e.label)
+  setSelectedOption(findIndex);
+}
   return (
-    <div>
-      <Pie
+    <div className="row">
+      <div className="col-md-4">             
+      <Select
+      placeholder="Select Option"
+      value={test[selectedOption]}
+      options={test} // set list of the data
+      onChange={e => handleChange(e,test)} // assign onChange function
+/>
+</div>
+<div className="col-md-4">
+<Select
+            placeholder="Select Option"
+            value={test1[selectedOption]}
+            options={test1} // set list of the data
+            onChange={e => handleChange(e,test1)} // assign onChange function
+/>
+</div>
+<div className="col-md-4">
+<Select
+            placeholder="Select Option"
+            value={test2[selectedOption]}
+            options={test2} // set list of the data
+            onChange={e => handleChange(e,test2)} // assign onChange function
+/>
+</div>
+      <Bar
         data={{
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['Jan', 'Feb', 'March', 'April'],
           datasets: [
             {
-              label: '# of votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-              ],
+              label: 'product',
+              data: dataSet,
+              backgroundColor:'blue',
               borderWidth: 1,
-            },
-            // {
-            //   label: 'Quantity',
-            //   data: [47, 52, 67, 58, 9, 50],
-            //   backgroundColor: 'orange',
-            //   borderColor: 'red',
-            // },
+            }
           ],
         }}
-        height={400}
-        width={600}
+        height={100}
+        width={300}
         options={{
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
           scales: {
             yAxes: [
               {
